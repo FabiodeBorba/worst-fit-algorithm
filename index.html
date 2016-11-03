@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>worst-fit</title>
+	<!-- Compiled and minified CSS -->
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+	<div class="container">
+	<h3 class="center">worst-fit-algorithm</h3>
+
+		<div class="row">
+			<div class="col s3">
+				<aside>
+					<ul>
+						<li>
+							<a href="#modal-chrome" id="chrome" onclick="modalChrome()" class="waves-effect waves-light btn-large btn-flat blue-text">
+								<img src="img/chorme.png" width="50px">
+								<span>Chrome</span>
+							</a>
+						</li>		
+					</ul>
+				</aside>
+			</div>
+
+			<div class="col s9">
+				<div class="result"></div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col s12">
+				<!-- Modal Trigger -->
+
+				<!-- Modal Struture -->
+				<div id="modal-chrome" class="modal">
+					<form id="form">
+
+					<div class="modal-content">
+						<h4>Chrome browser</h4>
+						
+						<hr />
+
+						<p>
+							Enter a values for new process.
+						</p>
+						<div class="row">
+						    	<div class="col s12">
+						      	<div class="row form-modal">
+							        <div class="input-field">
+										<input id="process" name="process" type="number" class="validate">
+										<label for="process" data-error="wrong" data-success="right">Number of processes</label>
+									</div>
+
+									<div class="input-field" style="margin-top: 1em">
+										<input id="memory" name="memory" type="number" class="validate">
+										<label for="memory" data-error="wrong" data-success="right">Number blocks of memory</label>
+									</div>
+					    		</div>
+					    		</div>
+					    </div>
+					</div>
+					
+					<div class="modal-footer">
+						<button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat">Send</button>
+					</div>
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	<script
+	src="https://code.jquery.com/jquery-3.1.1.min.js"
+	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	crossorigin="anonymous"></script>
+
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+
+
+	<script type="text/javascript">
+
+		const modalChrome = () => $('.modal').modal(); 
+		
+	</script> 
+
+	<script type="text/javascript">
+		
+	$(document).ready(function () {
+		
+		$('#form').submit(function (event){
+
+			var formData = {
+				'process' : $('input[name=process]').val(),
+				'memory' : $('input[name=memory]').val()
+			};
+
+			$.ajax({
+				type : 'POST',
+				url  : 'algorithm.php',
+				data : formData,
+				success : function (data) {
+					$('.modal').modal('close');
+					$('.result').html(data);
+
+					// $('input[name=process]').val('');
+					// $('input[name=memory]').val('');
+				}
+			})
+
+			.fail( function (data) {
+				alert('Erro');
+				console.log(data);
+			})
+
+			event.preventDefault();
+		});
+
+	});
+	</script>     
+</body>
+</html>
